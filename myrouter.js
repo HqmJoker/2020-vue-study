@@ -48,12 +48,12 @@ class VueRouter {
     }
 }
 
-VueRouter.install = function(Vue){
+VueRouter.install = function(){
     // 混入
     Vue.mixin({
         beforeCreate() {
             // 初始化路由配置信息
-            if (this.$options.router) {
+            if (this.$options.router) {  // 组件是否存在$options.router，该对象只在根组件上有
                 Vue.prototype.$options = this.$options.router;
                 this.$options.router.init();
             }
