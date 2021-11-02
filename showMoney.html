@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大屏金额滚动显示</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+  <style>
+    #app {
+      display: flex;
+      justify-content: center;
+      font-size: 50px;
+      color: gold;
+      padding-top: 100px;
+    }
+    .list-complete {
+      position: relative;
+    }
+    .list-complete-item {
+      transition: all 1s;
+      display: inline-block;
+      position: absolute;
+      margin-top: -50px;
+    }
+    .list-complete-enter {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .list-complete-leave-to {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    ￥
+    <transition-group class="list-complete" name="list-complete" tag="p">
+      <span v-for="(item,index) in formatPrice" v-bind:key="(''+item+index)" class="list-complete-item" :style="{ left:  index * 50 + 'px', 'transition-delay': 0.1 * index + 's'}" :key="item + index">
+        {{ item }}
+      </span>
+    </transition-group>
+  </div>
+
+  <script>
+    window.onload = function() {
+      var app = new Vue({
+        el: '#app',
+        data: {
+          price: 1000
+        },
+        computed: {
+          formatPrice() {
+            return this.price.toString().split('')
+          }
+        },
+        mounted() {
+          let timer = setInterval(() => {
+            const num = Math.floor(Math.random()*1000)
+            this.price += num;
+          }, 2000);
+        }
+      })
+    }
+  </script>
+</body>
+</html>
